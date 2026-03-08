@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "780816257645",
+    "project_id": "caloriedish-859b4",
+    "storage_bucket": "caloriedish-859b4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:780816257645:android:7cfbcf54a74c7022c5e564",
+        "android_client_info": {
+          "package_name": "uk.ac.tees.mad.caloriedish"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4ooiaRV7NtDMiS44i9BYCXknXVHbe5kc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
