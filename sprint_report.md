@@ -39,5 +39,27 @@ Outcome:
     Settings screen is functional
     Authentication flow is complete and reusable components improve UI consistency
 
+Sprint 3 – 2026/March/17
+
+User Story:
+As a user, I want a smooth app structure so that data loads efficiently and screens work correctly.
+
+Work Done:
+
+    Implemented repository layer (AuthRepository)
+    Added authentication use cases (Login, Logout, Register)
+    Built Bottom Navigation (BottomBar, BottomNavigationItem)
+    Created Home screen with ViewModel and UI state
+    Implemented Detail screen with ViewModel and argument parsing
+    Added TopBars and structured UI states
+
+Outcome:
+
+    Clean architecture (UI → UseCase → Repository) is established
+    Navigation between core screens works properly
+    Data handling is structured and scalable 
+
+
+
 
 
