@@ -59,6 +59,29 @@ Outcome:
     Navigation between core screens works properly
     Data handling is structured and scalable 
 
+Sprint 4 – 2026/March/20
+
+User Story:
+As a user, I want to view recipes and nutritional information so that I can make informed food choices.
+
+Work Done:
+
+    Built Recipe screen with ViewModel and UI state
+    Fetched recipe data from database
+    Implemented DishRepository and Calorie API service
+    Created data pipeline for calorie information retrieval
+    Added nutrition models and API response handling
+    Implemented Text-to-Speech for nutrition details
+    Added food suggestions feature
+
+Outcome:
+
+    Users can view recipes and nutritional data
+    External API integration is functional
+    App provides interactive features like voice feedback and suggestions
+
+
+
 
 
 
