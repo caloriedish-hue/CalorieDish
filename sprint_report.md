@@ -80,6 +80,31 @@ Outcome:
     External API integration is functional
     App provides interactive features like voice feedback and suggestions
 
+Sprint 5 – 2026/March/23
+
+User Story:
+As a user, I want my data (favorites and searches) to persist and sync so that I have a seamless experience across sessions.
+
+Work Done:
+
+    Implemented use cases for favorites and recent searches
+    Built local persistence using Room database
+    Added Custom Search Bar UI and app branding
+    Refactored navigation and improved UI layouts
+    Added required permissions (network, audio)
+    Integrated Firebase sync for favorite dishes
+    Implemented LoadOnLoginUseCase to sync data on login
+    Created Firebase data source and JSON mappers
+
+Outcome:
+
+    User data persists locally and syncs with Firebase
+    Search and favorites features are fully functional
+    UI is polished and navigation is improved
+    App is stable, complete, and production-ready
+
+
+
 
 
 
