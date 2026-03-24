@@ -1,10 +1,5 @@
 package uk.ac.tees.mad.caloriedish.presentation.home
 
-import android.app.Activity
-import android.content.Intent
-import android.speech.RecognizerIntent
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,7 +26,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -39,48 +33,12 @@ import uk.ac.tees.mad.caloriedish.data.local.RecentSearchEntity
 import uk.ac.tees.mad.caloriedish.domain.model.FoodNutrition
 import uk.ac.tees.mad.caloriedish.presentation.home.components.HomeTopBar
 import uk.ac.tees.mad.caloriedish.presentation.theme.Dimens
-import java.util.Locale
 
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = viewModel() ,
                onDetailClick:(FoodNutrition)-> Unit) {
     val uiState by viewModel.homeUiState.collectAsStateWithLifecycle()
-
-    val launcher = rememberLauncherForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val matches =
-                    result.data?.getStringArrayListExtra(
-                        RecognizerIntent.EXTRA_RESULTS
-                    )
-                matches?.get(0)?.let { spokenText ->
-                    viewModel.onQueryChange(spokenText)
-                    viewModel.onSearch()
-                }
-            }
-        }
-
-    fun startVoiceSearch() {
-        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-        intent.putExtra(
-            RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-            RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
-        )
-        intent.putExtra(
-            RecognizerIntent.EXTRA_LANGUAGE,
-            Locale.getDefault()
-        )
-        intent.putExtra(
-            RecognizerIntent.EXTRA_PROMPT,
-            "Speak food name"
-        )
-        launcher.launch(intent)
-    }
-
-
-
 
     HomeScreenContent(
         uiState = uiState,
@@ -90,10 +48,7 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel() ,
         onClearAllClick = viewModel::onClearAllCLick,
         onFavoriteClick = viewModel::onFavoriteClick ,
         onSearchIconClick = viewModel::onSearchIconClick ,
-        onDetailClick = onDetailClick ,
-        onVoiceClick = {
-            startVoiceSearch()
-        }
+        onDetailClick = onDetailClick
     )
 }
 
@@ -108,7 +63,6 @@ fun HomeScreenContent(
     onFavoriteClick: () -> Unit,
     onSearchIconClick: (String) -> Unit ,
     onDetailClick:(FoodNutrition)-> Unit ,
-    onVoiceClick :()-> Unit
 ) {
     Column(
         modifier = Modifier
@@ -123,8 +77,7 @@ fun HomeScreenContent(
             query = uiState.query,
             onQueryChange = onQueryChange,
             onSelect = onSuggestionSelected,
-            onSearch = onSearch ,
-            onVoiceClick = onVoiceClick
+            onSearch = onSearch
         )
 
         uiState.foodNutrition?.let { item ->
@@ -207,8 +160,7 @@ fun HomeScreenPreview() {
         onClearAllClick = {},
         onSearchIconClick = {},
         onFavoriteClick = {} ,
-        onDetailClick = {} ,
-        onVoiceClick = {}
+        onDetailClick = {}
     )
 }
 

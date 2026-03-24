@@ -108,7 +108,7 @@ fun SignUpScreenContent(
             Spacer(modifier = Modifier.height(Dimens.paddingXLarge))
             CustomTextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = uiState.confirmPassword,
+                value = uiState.password,
                 label = "Confirm Password",
                 trailingIcon = Icons.Default.VisibilityOff,
                 onValueChange = onConfirmPasswordChange,

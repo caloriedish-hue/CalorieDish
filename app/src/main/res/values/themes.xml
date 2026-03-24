@@ -2,11 +2,4 @@
 <resources>
 
     <style name="Theme.CalorieDish" parent="android:Theme.Material.Light.NoActionBar" />
-
-    <style name="Theme.MySplashScreen" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/white</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/cd_logo</item>
-        <item name="postSplashScreenTheme">@style/Theme.CalorieDish</item>
-    </style>
-
 </resources>
