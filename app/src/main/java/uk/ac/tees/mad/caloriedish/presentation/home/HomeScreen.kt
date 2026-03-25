@@ -1,5 +1,10 @@
 package uk.ac.tees.mad.caloriedish.presentation.home
 
+import android.app.Activity
+import android.content.Intent
+import android.speech.RecognizerIntent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -33,12 +38,48 @@ import uk.ac.tees.mad.caloriedish.data.local.RecentSearchEntity
 import uk.ac.tees.mad.caloriedish.domain.model.FoodNutrition
 import uk.ac.tees.mad.caloriedish.presentation.home.components.HomeTopBar
 import uk.ac.tees.mad.caloriedish.presentation.theme.Dimens
+import java.util.Locale
 
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = viewModel() ,
                onDetailClick:(FoodNutrition)-> Unit) {
     val uiState by viewModel.homeUiState.collectAsStateWithLifecycle()
+
+    val launcher = rememberLauncherForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val matches =
+                    result.data?.getStringArrayListExtra(
+                        RecognizerIntent.EXTRA_RESULTS
+                    )
+                matches?.get(0)?.let { spokenText ->
+                    viewModel.onQueryChange(spokenText)
+                    viewModel.onSearch()
+                }
+            }
+        }
+
+    fun startVoiceSearch() {
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        intent.putExtra(
+            RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+            RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+        )
+        intent.putExtra(
+            RecognizerIntent.EXTRA_LANGUAGE,
+            Locale.getDefault()
+        )
+        intent.putExtra(
+            RecognizerIntent.EXTRA_PROMPT,
+            "Speak food name"
+        )
+        launcher.launch(intent)
+    }
+
+
+
 
     HomeScreenContent(
         uiState = uiState,
@@ -48,7 +89,10 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel() ,
         onClearAllClick = viewModel::onClearAllCLick,
         onFavoriteClick = viewModel::onFavoriteClick ,
         onSearchIconClick = viewModel::onSearchIconClick ,
-        onDetailClick = onDetailClick
+        onDetailClick = onDetailClick ,
+        onVoiceClick = {
+            startVoiceSearch()
+        }
     )
 }
 
@@ -63,6 +107,7 @@ fun HomeScreenContent(
     onFavoriteClick: () -> Unit,
     onSearchIconClick: (String) -> Unit ,
     onDetailClick:(FoodNutrition)-> Unit ,
+    onVoiceClick :()-> Unit
 ) {
     Column(
         modifier = Modifier
@@ -77,7 +122,8 @@ fun HomeScreenContent(
             query = uiState.query,
             onQueryChange = onQueryChange,
             onSelect = onSuggestionSelected,
-            onSearch = onSearch
+            onSearch = onSearch ,
+            onVoiceClick = onVoiceClick
         )
 
         uiState.foodNutrition?.let { item ->
@@ -110,7 +156,6 @@ fun HomeScreenContent(
 
         }
         uiState.recentSearch?.let { it ->
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -160,7 +205,8 @@ fun HomeScreenPreview() {
         onClearAllClick = {},
         onSearchIconClick = {},
         onFavoriteClick = {} ,
-        onDetailClick = {}
+        onDetailClick = {} ,
+        onVoiceClick = {}
     )
 }
 

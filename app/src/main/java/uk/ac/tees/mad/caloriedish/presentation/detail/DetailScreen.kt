@@ -11,6 +11,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.VolumeOff
+import androidx.compose.material.icons.filled.VolumeOff
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.LinearProgressIndicator
@@ -21,6 +24,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -46,7 +50,10 @@ fun DetailScreen(foodNutrition: FoodNutrition ,
 
     DetailScreenContent(
         nutrition = uiState.foodNutrition ,
-        onBackClick = onBackClick
+        onBackClick = onBackClick ,
+        isSpeaking = uiState.isSpeaking ,
+        onSpeechToggle = viewModel ::onSpeechToggle ,
+        icon = uiState.icon
     )
 
 }
@@ -59,7 +66,10 @@ fun DetailScreen(foodNutrition: FoodNutrition ,
 fun DetailScreenContent(
     nutrition: FoodNutrition?,
     onBackClick:()-> Unit ,
-    modifier: Modifier = Modifier
+    isSpeaking :Boolean ,
+    onSpeechToggle: () -> Unit,
+    icon : ImageVector ,
+    modifier: Modifier = Modifier ,
 ) {
 
     Column(
@@ -69,7 +79,10 @@ fun DetailScreenContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.primary) ,
-            onBackClick = onBackClick
+            onBackClick = onBackClick ,
+            isSpeaking = isSpeaking ,
+            onSpeechToggle = onSpeechToggle ,
+            icon = icon,
         )
 
         nutrition?.let {nutrition ->
@@ -324,7 +337,10 @@ fun DetailScreenPreview() {
             )
         ),
         modifier = Modifier ,
-        onBackClick = {}
+        onBackClick = {} ,
+        isSpeaking = false ,
+        onSpeechToggle = {} ,
+        icon = Icons.Default.VolumeOff
     )
 }
 

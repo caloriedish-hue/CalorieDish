@@ -15,7 +15,8 @@ fun HomeTopBar(
     query: String,
     onSelect: (String) -> Unit,
     onQueryChange: (String) -> Unit,
-    onSearch: () -> Unit
+    onSearch: () -> Unit ,
+    onVoiceClick:()-> Unit
 ) {
 
     Row(
@@ -30,7 +31,8 @@ fun HomeTopBar(
             query = query ,
             onSelect = onSelect ,
             onQueryChange = onQueryChange ,
-            onSearch  = onSearch
+            onSearch  = onSearch ,
+            onVoiceClick = onVoiceClick
         )
     }
 }

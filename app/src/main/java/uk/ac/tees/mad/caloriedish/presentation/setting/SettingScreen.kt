@@ -45,7 +45,7 @@ fun SettingScreenContent(uiState: SettingUiState, onLogoutClick: () -> Unit) {
             .weight(1f)
             .padding(horizontal = Dimens.paddingMedium)){
             Spacer(modifier = Modifier.height(Dimens.paddingSmall))
-            UserProfile(userProfile = "User Profile")
+            UserProfile(userProfile = uiState.userEmail)
             Spacer(modifier = Modifier.weight(1f))
             SignOutButton(onSignOutClick = onLogoutClick, isLoading = uiState.isLoading , modifier = Modifier)
         }

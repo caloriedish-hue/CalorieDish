@@ -5,11 +5,13 @@ import uk.ac.tees.mad.caloriedish.data.local.FavoriteDishDao
 import uk.ac.tees.mad.caloriedish.data.local.FavoriteDishEntity
 import uk.ac.tees.mad.caloriedish.data.local.RecentSearchDao
 import uk.ac.tees.mad.caloriedish.data.local.RecentSearchEntity
+import uk.ac.tees.mad.caloriedish.data.remote.FirebaseDataSource
 import uk.ac.tees.mad.caloriedish.domain.repository.DishDbRepository
 
 class DishDbRepositoryImpl(
     private val recentSearchDao: RecentSearchDao,
-    private val favoriteDishDao: FavoriteDishDao
+    private val favoriteDishDao: FavoriteDishDao ,
+    private val firebaseDataSource: FirebaseDataSource ,
 ) : DishDbRepository {
     override suspend fun insertRecentSearch(recentSearch: RecentSearchEntity) {
         recentSearchDao.insertSearch(recentSearch)
@@ -26,12 +28,13 @@ class DishDbRepositoryImpl(
 
     override suspend fun insertFavoriteDish(favoriteDish: FavoriteDishEntity) {
         favoriteDishDao.insertDish(favoriteDish)
+        //firebase storage--
+        firebaseDataSource.saveFavoriteDish(favoriteDish.nutrition)
     }
 
     override suspend fun deleteFavoriteDish(id: Long) {
         favoriteDishDao.deleteDish(id)
     }
-
 
     override suspend fun deleteAllSearches() {
         recentSearchDao.deleteSearch()

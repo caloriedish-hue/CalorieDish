@@ -60,6 +60,7 @@ class HomeViewModel(application: Application) :
                 )
             }
             val entity = _homeUiState.value.foodNutrition?.toFavoriteDishEntity()
+            //store in the firebase too
 
             entity?.let {
                 insertFavoriteUseCase

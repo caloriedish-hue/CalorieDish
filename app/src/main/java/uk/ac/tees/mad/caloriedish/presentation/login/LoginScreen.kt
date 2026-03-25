@@ -82,7 +82,7 @@ fun LoginScreenContent(
             Text(
                 text = "Login Now",
                 modifier = Modifier.fillMaxWidth(),
-                fontSize = 24.sp,
+                fontSize = 30.sp,
                 textAlign = TextAlign.Center,
                 fontStyle = FontStyle.Normal,
                 fontFamily = FontFamily.Cursive,
@@ -112,13 +112,15 @@ fun LoginScreenContent(
 
             CustomAuthButton(
                 onClick = onLoginCLick,
-                isLoading = false,
+                isLoading = uiState.isLoading,
+                isLoginEnabled = uiState.isLoginEnabled ,
                 text = "Login",
                 modifier = Modifier.fillMaxWidth()
             )
 
             Text(
                 text = "Dont have an account? Register",
+                fontSize = 18.sp,
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {

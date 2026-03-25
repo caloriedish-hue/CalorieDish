@@ -21,7 +21,6 @@ AndroidViewModel(application){
 
     private val _signUpUiState = MutableStateFlow(SignUpUiState())
     val signUpUiState = _signUpUiState.asStateFlow()
-
     fun onEmailChange(email : String){
         _signUpUiState.update {
             it.copy(
@@ -60,6 +59,7 @@ AndroidViewModel(application){
             registerUseCase(email = state.email , password = state.password)
                 .onSuccess {
                     preferenceManager.setLoggedIn(true)
+                    preferenceManager.setUserProfile(state.email)
                     _signUpUiState.update {
                         it.copy(
                             isLoading = false ,

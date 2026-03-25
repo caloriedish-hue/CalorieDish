@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uk.ac.tees.mad.caloriedish.CalorieDishApp
+import uk.ac.tees.mad.caloriedish.domain.usecase.LoadOnLoginUseCase
 import uk.ac.tees.mad.caloriedish.domain.usecase.LoginUseCase
 import uk.ac.tees.mad.caloriedish.utils.PreferenceManager
 
@@ -16,6 +17,9 @@ class LoginViewModel(application: Application)
     : AndroidViewModel(application) {
         private val loginUseCase : LoginUseCase =
             (application as CalorieDishApp).dependencyContainer.loginUseCase
+
+    private  val loadOnLoginUseCase : LoadOnLoginUseCase =
+        (application as CalorieDishApp).dependencyContainer.loadOnLoginUseCase
 
         private val preferenceManager : PreferenceManager =
             (application as CalorieDishApp).dependencyContainer.preferenceManager
@@ -49,6 +53,8 @@ class LoginViewModel(application: Application)
             loginUseCase(email = state.email , password =  state.password)
                 .onSuccess {
                     preferenceManager.setLoggedIn(true)
+                    preferenceManager.setUserProfile(state.email)
+                    loadOnLoginUseCase()
                     _loginUiState.update {
                         it.copy(
                             isLoading = false  ,

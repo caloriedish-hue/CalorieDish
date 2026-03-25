@@ -5,4 +5,8 @@ import uk.ac.tees.mad.caloriedish.domain.model.FoodNutrition
 
 interface DishRepository {
     suspend fun fetchDish(ingredient : String): Result<FoodNutrition>
+
+    suspend fun loadOnLogin()
+
+    suspend fun deleteOnLogout()
 }

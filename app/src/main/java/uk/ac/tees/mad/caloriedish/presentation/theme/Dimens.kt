@@ -42,6 +42,7 @@ object Dimens {
 
     // AppBar Height
     val appBarHeight = 56.dp
+    val bottomBarHeight = 56.dp
 
     // Card Spacing
     val cardPadding = 16.dp

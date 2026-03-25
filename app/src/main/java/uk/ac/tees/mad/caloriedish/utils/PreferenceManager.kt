@@ -9,6 +9,7 @@ class PreferenceManager (context: Context){
     companion object{
         const val MY_PREFS = "MyPrefs"
         const val IS_LOGGED_IN = "IsLoggedIn"
+        const val USER_PROFILE = "UserProfile"
     }
     private val sharedPreferences = context.getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE)
 
@@ -20,6 +21,16 @@ class PreferenceManager (context: Context){
         sharedPreferences.edit{
             putBoolean(IS_LOGGED_IN, isLoggedIn)
         }
+    }
+
+    fun setUserProfile(userProfile: String?){
+        sharedPreferences.edit{
+            putString(USER_PROFILE, userProfile)
+        }
+    }
+
+    fun getUserProfile(): String? {
+        return sharedPreferences.getString(USER_PROFILE, null)
     }
 
 

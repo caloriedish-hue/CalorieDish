@@ -33,8 +33,14 @@ interface RecentSearchDao {
 interface FavoriteDishDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDish(dish: FavoriteDishEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertDishList(dish: List<FavoriteDishEntity>)
     @Query("SELECT * FROM favorite_dishes")
     fun getFavoriteDishes(): Flow<List<FavoriteDishEntity>>
     @Query("DELETE FROM favorite_dishes WHERE id = :dishId")
     suspend fun deleteDish(dishId: Long)
+
+    @Query("DELETE FROM favorite_dishes")
+    suspend fun deleteAll()
 }

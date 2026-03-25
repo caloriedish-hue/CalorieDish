@@ -2,11 +2,14 @@ package uk.ac.tees.mad.caloriedish.presentation.setting
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import uk.ac.tees.mad.caloriedish.CalorieDishApp
+import uk.ac.tees.mad.caloriedish.domain.usecase.DeleteOnLogoutUseCase
 import uk.ac.tees.mad.caloriedish.domain.usecase.LogoutUseCase
 import uk.ac.tees.mad.caloriedish.utils.PreferenceManager
 
@@ -17,6 +20,8 @@ class SettingViewModel(application: Application) :
 
     private val logoutUseCase: LogoutUseCase =
         (application as CalorieDishApp).dependencyContainer.logoutUseCase
+    private val deleteOnLogoutUseCase: DeleteOnLogoutUseCase =
+        (application as CalorieDishApp).dependencyContainer.deleteOnLogoutUseCase
     private val _settingUiState = MutableStateFlow(SettingUiState())
     val settingUiState: StateFlow<SettingUiState> = _settingUiState.asStateFlow()
 
@@ -35,23 +40,28 @@ class SettingViewModel(application: Application) :
         )
     }
 
-    fun onLogoutClick() {
-        _settingUiState.update {
-            it.copy(
-                isLoading = true
-            )
-        }
-        logoutUseCase().onFailure { error ->
+     fun onLogoutClick() {
+        viewModelScope.launch {
             _settingUiState.update {
                 it.copy(
-                    isLoading = false, error = error.message, navigateToLogin = false
+                    isLoading = true
                 )
             }
-        }.onSuccess {
-            _settingUiState.update {
-                it.copy(
-                    isLoading = false, navigateToLogin = true, error = null
-                )
+            logoutUseCase().onFailure { error ->
+                _settingUiState.update {
+                    it.copy(
+                        isLoading = false, error = error.message, navigateToLogin = false
+                    )
+                }
+            }.onSuccess {
+                preferenceManager.setLoggedIn(false)
+                preferenceManager.setUserProfile(null)
+                deleteOnLogoutUseCase()
+                _settingUiState.update {
+                    it.copy(
+                        isLoading = false, navigateToLogin = true, error = null
+                    )
+                }
             }
         }
     }

@@ -11,8 +11,6 @@ data class FavoriteDishEntity(
     val nutrition: FoodNutrition ,
 )
 
-
-
 @Entity(tableName = "recent_search")
 data class RecentSearchEntity(
     @PrimaryKey(autoGenerate = true)

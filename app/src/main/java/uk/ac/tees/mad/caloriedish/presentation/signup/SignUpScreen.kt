@@ -108,7 +108,7 @@ fun SignUpScreenContent(
             Spacer(modifier = Modifier.height(Dimens.paddingXLarge))
             CustomTextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = uiState.password,
+                value = uiState.confirmPassword,
                 label = "Confirm Password",
                 trailingIcon = Icons.Default.VisibilityOff,
                 onValueChange = onConfirmPasswordChange,
@@ -116,9 +116,10 @@ fun SignUpScreenContent(
             Spacer(modifier = Modifier.height(Dimens.paddingXLarge))
             CustomAuthButton(
                 onClick = onSignUpClick,
-                isLoading = false,
-                text = "Login",
-                modifier = Modifier.fillMaxWidth()
+                isLoading = uiState.isLoading,
+                text = "Signup",
+                modifier = Modifier.fillMaxWidth(),
+                isLoginEnabled = uiState.isSignUpEnabled
             )
             Text(
                 text = "Already have account ? Login",
